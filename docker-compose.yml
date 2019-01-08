@@ -1,0 +1,33 @@
+version: '2'
+services:
+  web:
+    image: nginx
+    ports:
+      - 9999:80
+    container_name: web
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+
+  go-base:
+    image: go-base:v0.1
+    build: ./go-base/
+
+  go1:
+    image: go-base:v0.1
+    ports:
+      - 10086:8080
+    container_name: go1
+    volumes:
+      - ./beego1/test.go:/root/go/src/190108/test.go
+    depends_on:
+      - go-base
+
+  go2:
+    image: go-base:v0.1
+    ports:
+      - 10087:8080
+    container_name: go2
+    volumes:
+      - ./beego2/test.go:/root/go/src/190108/test.go
+    depends_on:
+      - go-base
